@@ -1,0 +1,572 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>خطة ميدات Fall 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Reem+Kufi:wght@500;700&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+/* Layout: exam-booklet planner — a sticky header, an exam strip, a day rail, and the day's blocks as answer-sheet rows. */
+:root{
+  --bg:#f3f5f8; --paper:#ffffff; --ink:#16202c; --muted:#5d6878; --line:#dbe1ea; --grid:#e9eef5;
+  --pen:#1f4fd1; --pen-soft:#e4ebfc; --mark:#c81e3a; --mark-soft:#fbe7ea; --ok:#14804a; --ok-soft:#e2f4ea;
+  --c-math:#4338ca; --c-ai:#7c3aed; --c-cs201:#b45309; --c-cs351:#0f766e; --c-engl:#be185d;
+  --f-display:"Reem Kufi","IBM Plex Sans Arabic",Tahoma,sans-serif;
+  --f-body:"IBM Plex Sans Arabic","Segoe UI",Tahoma,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Consolas,monospace;
+  --r:10px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0e1420; --paper:#151d2b; --ink:#e6ebf3; --muted:#9aa6b8; --line:#283447; --grid:#1b2536;
+  --pen:#7ea2ff; --pen-soft:#1d2a4a; --mark:#ff6b81; --mark-soft:#3a1a22; --ok:#4ad08a; --ok-soft:#14301f;
+  --c-math:#a5b4fc; --c-ai:#c4b5fd; --c-cs201:#fbbf24; --c-cs351:#5eead4; --c-engl:#f9a8d4; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0e1420; --paper:#151d2b; --ink:#e6ebf3; --muted:#9aa6b8; --line:#283447; --grid:#1b2536;
+  --pen:#7ea2ff; --pen-soft:#1d2a4a; --mark:#ff6b81; --mark-soft:#3a1a22; --ok:#4ad08a; --ok-soft:#14301f;
+  --c-math:#a5b4fc; --c-ai:#c4b5fd; --c-cs201:#fbbf24; --c-cs351:#5eead4; --c-engl:#f9a8d4; color-scheme:dark}
+*{box-sizing:border-box}
+html{color-scheme:light}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.6;
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px);background-size:100% 28px}
+.wrap{max-width:1080px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 48px}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--paper)}
+header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--paper);border-bottom:1px solid var(--line)}
+header.top .wrap{display:flex;align-items:center;gap:16px;flex-wrap:wrap;padding-block:12px}
+h1{font-family:var(--f-display);font-weight:700;font-size:1.45rem;margin:0;letter-spacing:0}
+h1 small{font-family:var(--f-body);font-weight:500;font-size:.8rem;color:var(--muted);margin-inline-start:8px}
+.kpis{display:flex;gap:18px;margin-inline-start:auto;flex-wrap:wrap}
+.kpi{display:flex;flex-direction:column;min-width:0}
+.kpi b{font-family:var(--f-mono);font-size:1.05rem;font-variant-numeric:tabular-nums}
+.kpi span{font-size:.75rem;color:var(--muted)}
+.sync{font-size:.75rem;color:var(--muted);display:flex;align-items:center;gap:6px}
+.sync i{width:8px;height:8px;border-radius:50%;background:var(--muted);display:inline-block}
+.sync.on i{background:var(--ok)}
+h2{font-family:var(--f-display);font-weight:500;font-size:1.15rem;margin:28px 0 12px;text-wrap:balance}
+.eyebrow{font-size:.72rem;letter-spacing:.06em;color:var(--muted);text-transform:uppercase}
+
+/* exam strip */
+.exams-scroll{overflow-x:auto;padding-bottom:6px;margin-top:18px}
+.exams{display:grid;grid-template-columns:repeat(5,minmax(190px,1fr));gap:12px;min-width:min-content}
+.exam{background:var(--paper);border:1px solid var(--line);border-radius:var(--r);padding:12px 14px;display:flex;flex-direction:column;gap:6px;position:relative;overflow:hidden}
+.exam::before{content:"";position:absolute;inset:0 0 auto 0;height:3px;background:var(--cc)}
+.exam .code{font-family:var(--f-mono);font-size:.85rem;color:var(--cc)}
+.exam .when{font-weight:600}
+.exam .left{font-family:var(--f-mono);font-variant-numeric:tabular-nums;font-size:1.25rem}
+.exam .left.soon{color:var(--mark)}
+.exam .meta{font-size:.78rem;color:var(--muted)}
+.bar{height:6px;background:var(--grid);border-radius:4px;overflow:hidden}
+.bar>i{display:block;height:100%;background:var(--cc,var(--pen));border-radius:4px;transition:width .3s}
+.exam.done{opacity:.6}
+.engl-date{display:flex;gap:6px;align-items:center;font-size:.78rem}
+.engl-date input{font:inherit;font-size:.8rem;padding:2px 6px;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--ink);min-width:0;max-width:150px}
+
+/* day rail */
+.rail-scroll{overflow-x:auto;padding-bottom:6px}
+.rail{display:flex;gap:8px;min-width:min-content}
+.daybtn{font:inherit;border:1px solid var(--line);background:var(--paper);color:var(--ink);border-radius:10px;padding:6px 10px;cursor:pointer;display:flex;flex-direction:column;align-items:center;min-width:64px;gap:2px}
+.daybtn .dn{font-size:.72rem;color:var(--muted)}
+.daybtn .dd{font-family:var(--f-mono);font-size:1.05rem;font-variant-numeric:tabular-nums}
+.daybtn .dots{display:flex;gap:3px;height:6px}
+.daybtn .dots i{width:6px;height:6px;border-radius:50%;background:var(--line)}
+.daybtn .dots i.full{background:var(--ok)}
+.daybtn .dots i.half{background:var(--pen)}
+.daybtn.exam-day{border-color:var(--mark)}
+.daybtn.exam-day .dn{color:var(--mark)}
+.daybtn[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.daybtn[aria-pressed="true"] .dn{color:inherit;opacity:.8}
+.daybtn.today{outline:2px solid var(--pen);outline-offset:2px}
+.daybtn:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px solid var(--pen);outline-offset:2px}
+
+/* day panel */
+.dayhead{display:flex;align-items:flex-end;gap:16px;flex-wrap:wrap;margin:20px 0 12px}
+.dayhead h3{font-family:var(--f-display);font-weight:700;font-size:1.3rem;margin:0}
+.dayhead .goal{margin-inline-start:auto;min-width:220px;flex:0 1 320px;display:flex;flex-direction:column;gap:4px}
+.dayhead .goal .row{display:flex;justify-content:space-between;font-size:.8rem;color:var(--muted)}
+.dayhead .goal .row b{font-family:var(--f-mono);color:var(--ink);font-variant-numeric:tabular-nums}
+.blocks{display:flex;flex-direction:column;gap:10px}
+.block{background:var(--paper);border:1px solid var(--line);border-radius:var(--r);display:grid;grid-template-columns:4px 1fr;overflow:hidden}
+.block>.stripe{background:var(--cc)}
+.block .body{padding:12px 14px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.block .hd{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.chip{font-family:var(--f-mono);font-size:.75rem;padding:1px 8px;border-radius:20px;border:1px solid var(--cc);color:var(--cc);white-space:nowrap}
+.slot{font-family:var(--f-mono);font-size:.8rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.state{margin-inline-start:auto;font-size:.75rem;padding:2px 10px;border-radius:20px;background:var(--grid);color:var(--muted)}
+.state.doing{background:var(--pen-soft);color:var(--pen)}
+.state.done{background:var(--ok-soft);color:var(--ok)}
+.block h4{margin:0;font-size:1rem;font-weight:600}
+.block .tip{font-size:.82rem;color:var(--muted);margin:0}
+.topics{display:flex;flex-direction:column;gap:4px;margin:0;padding:0;list-style:none}
+.topic{display:flex;gap:8px;align-items:flex-start}
+.topic input{margin-top:5px;accent-color:var(--ok);width:16px;height:16px;flex:none}
+.topic label{cursor:pointer;min-width:0}
+.topic label .en{direction:ltr;unicode-bidi:isolate;font-weight:500}
+.topic label .src{display:block;font-size:.75rem;color:var(--muted)}
+.topic.is-done label .en{text-decoration:line-through;text-decoration-color:var(--ok);color:var(--muted)}
+.ctrl{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.btn{font:inherit;font-size:.85rem;border-radius:8px;border:1px solid var(--line);background:var(--paper);color:var(--ink);padding:5px 12px;cursor:pointer}
+.btn.primary{background:var(--pen);border-color:var(--pen);color:#fff}
+.btn.finish{background:var(--ok);border-color:var(--ok);color:#fff}
+.btn.ghost{border-color:transparent;color:var(--muted)}
+.btn:disabled{opacity:.45;cursor:default}
+.tfield{display:flex;align-items:center;gap:4px;font-size:.78rem;color:var(--muted)}
+.tfield input{font-family:var(--f-mono);font-size:.82rem;padding:3px 6px;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--ink);width:7.2em}
+.elapsed{font-family:var(--f-mono);font-variant-numeric:tabular-nums;font-size:.9rem;margin-inline-start:auto}
+.elapsed.live{color:var(--pen)}
+textarea.note{font:inherit;font-size:.85rem;width:100%;min-height:38px;resize:vertical;border:1px dashed var(--line);border-radius:8px;padding:6px 8px;background:transparent;color:var(--ink)}
+.examrow{border:2px solid var(--mark);background:var(--mark-soft);border-radius:var(--r);padding:12px 14px;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.examrow b{color:var(--mark);font-family:var(--f-display);font-size:1.05rem}
+.examrow span{font-size:.85rem}
+.note-bar{font-size:.82rem;color:var(--muted);background:var(--paper);border:1px dashed var(--line);border-radius:var(--r);padding:8px 12px;margin-top:10px}
+
+/* courses */
+.tabs{display:flex;gap:6px;flex-wrap:wrap}
+.tab{font:inherit;font-size:.85rem;border:1px solid var(--line);background:var(--paper);color:var(--ink);border-radius:20px;padding:4px 12px;cursor:pointer}
+.tab[aria-selected="true"]{border-color:var(--cc);color:var(--cc);box-shadow:inset 0 0 0 1px var(--cc)}
+.course{background:var(--paper);border:1px solid var(--line);border-radius:var(--r);padding:14px 16px;margin-top:10px;display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:20px}
+.course h4{margin:0 0 6px;font-size:1rem}
+.course .scope{font-size:.85rem;color:var(--muted);margin:0 0 10px}
+.files{font-size:.82rem;margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:4px}
+.files li{direction:ltr;text-align:left;unicode-bidi:isolate;font-family:var(--f-mono);font-size:.75rem;color:var(--muted);overflow-wrap:anywhere}
+.files .folder{font-family:var(--f-body);font-size:.85rem;color:var(--ink);direction:rtl;text-align:right;font-weight:600}
+a{color:var(--pen)}
+.reset{margin-top:28px;font-size:.8rem;color:var(--muted);display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+@media (max-width:720px){
+  .course{grid-template-columns:1fr}
+  .kpis{margin-inline-start:0;width:100%;justify-content:space-between}
+  .elapsed{margin-inline-start:0}
+}
+.auth{display:flex;align-items:center;gap:8px;font-size:.78rem;color:var(--muted)}
+.ro-badge{font-size:.72rem;padding:2px 10px;border-radius:20px;background:var(--grid);color:var(--muted)}
+body.ro textarea.note{border-style:solid;background:var(--bg)}
+[hidden]{display:none!important}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script>
+/* ===== الإعدادات: الصق هنا بيانات مشروع Firebase وإيميلك ===== */
+window.FIREBASE_CONFIG = {
+  apiKey: "AIzaSyByNbWTK-B6ZgFHP-4BnDAXIENMcOIPUck",
+  authDomain: "midterm-planner.firebaseapp.com",
+  projectId: "midterm-planner",
+  storageBucket: "midterm-planner.firebasestorage.app",
+  messagingSenderId: "363809300385",
+  appId: "1:363809300385:web:d236dcd3fa6dd50eee75e0"
+};
+window.OWNER_EMAIL = "assad.272q@gmail.com";
+</script>
+</head>
+<body class="ro">
+<div dir="rtl" lang="ar">
+<header class="top">
+  <div class="wrap">
+    <h1>خطة الميد <small>٦ ساعات يومياً · 23 أكتوبر – 3 نوفمبر</small></h1>
+    <div class="auth" id="auth"><span class="ro-badge" id="roBadge">عرض فقط</span><button class="btn" id="signIn" type="button" hidden>دخول للتعديل</button><button class="btn ghost" id="signOut" type="button" hidden>خروج</button></div>
+    <div class="kpis">
+      <div class="kpi"><b id="kpiToday">0:00</b><span>ذاكرت اليوم من 6:00</span></div>
+      <div class="kpi"><b id="kpiTotal">0:00</b><span>مجموع ساعات المذاكرة</span></div>
+      <div class="kpi"><b id="kpiTopics">0/0</b><span>شباتر خلصتها</span></div>
+      <div class="sync" id="sync"><i></i><span>يحمّل…</span></div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="exams-scroll"><div class="exams" id="exams"></div></div>
+
+  <h2>الجدول اليومي</h2>
+  <div class="rail-scroll"><div class="rail" id="rail" role="group" aria-label="أيام الخطة"></div></div>
+  <section id="day"></section>
+
+  <h2>الشباتر حسب المادة</h2>
+  <div class="tabs" id="ctabs" role="tablist"></div>
+  <section id="course"></section>
+
+  <div class="reset">
+    <span id="storeNote"></span>
+  </div>
+</main>
+</div>
+
+<script>
+(function(){
+"use strict";
+
+/* ---------- data ---------- */
+const COURSES = {
+  math:  {code:"MATH 102", name:"Calculus II", color:"--c-math", folder:"MATH 102 - شباتر الميد",
+          exam:"2026-10-26T12:30", examText:"الاثنين 26 أكتوبر · 12:30 م", meta:"25% · المكان يتحدد لاحقاً",
+          scope:"5.3–5.6 · 6.1, 6.3, 6.4 · 7.1–7.3 · 8.1–8.3 (powers of sines & cosines). المصدر: إعلان الدكتور في التيمز."},
+  ai:    {code:"AI 418", name:"Human–Computer Interaction", color:"--c-ai", folder:"AI 418 - شباتر الميد",
+          exam:"2026-10-27T08:00", examDateOnly:true, examText:"الثلاثاء 27 أكتوبر · وقت محاضرتك وقاعتك", meta:"15% · 15 MCQ + سؤال تصميم · 50 دقيقة",
+          scope:"Week 1 إلى Week 6 Session 1 (Universal Design). البروتوتايب بعد الميد ومو داخل. المصدر: إعلان الدكتور في D2L.",
+          link:{href:"https://ai418-delivery-918d.web.app/s/midterm", text:"صفحة مراجعة الميد من الدكتور"}},
+  cs201: {code:"CS 201", name:"Discrete Systems", color:"--c-cs201", folder:"CS 201 - شباتر الميد",
+          exam:"2026-11-02T08:00", examDateOnly:true, examText:"الاثنين 2 نوفمبر · الوقت والمكان لم يُعلنا", meta:"الميد الثاني · Chapter 2 + Chapter 4",
+          scope:"Chapter 2 (Sets, Functions…) و Chapter 4 (Number Theory & Encryption). المصدر: إعلان المادة في D2L."},
+  cs351: {code:"CS 351", name:"Database Systems", color:"--c-cs351", folder:"CS 351 - شباتر الميد",
+          exam:"2026-11-03T12:15", examText:"الثلاثاء 3 نوفمبر · 12:15 م", meta:"ساعة ونص · 30% MCQ + 70% كتابي",
+          scope:"Lecture 1 إلى Lecture 6 (Week 1, Week 2, DBMSTypes, Week 4 Part 1, Week 5 Part 2, Week 6, Week 7). المصدر: إعلان الدكتور في التيمز."},
+  engl:  {code:"ENGL 201", name:"Technical Writing", color:"--c-engl", folder:"ENGL 201 - شباتر الميد",
+          exam:null, examText:"الموعد لم يُعلن بعد", meta:"30 درجة · حسب دليل الميد",
+          scope:"Section A: AWL 7 + AWL 8 · Section B: Professional responsibility · Section C: Units 1 & 2 · Section D: Ex 2.8, 2.3, 2.6 + Appendix A. المصدر: دليل الميد في التيمز."}
+};
+
+const TOPICS = [
+  // MATH 102
+  {id:"m53",c:"math",t:"5.3 The Definite Integral",s:"Annotated notes 5.3 + Ch 5 slides"},
+  {id:"m54",c:"math",t:"5.4 The Fundamental Theorem of Calculus",s:"Annotated notes 5.4"},
+  {id:"m55",c:"math",t:"5.5 Indefinite Integrals & Substitution",s:"Annotated notes 5.5"},
+  {id:"m56",c:"math",t:"5.6 Substitution & Area Between Curves",s:"Annotated notes 5.6"},
+  {id:"m61",c:"math",t:"6.1 Volumes: Disk & Washer Methods",s:"Annotated notes 6.1 + Ch 6 slides"},
+  {id:"m63",c:"math",t:"6.3 Arc Length",s:"Annotated notes 6.3"},
+  {id:"m64",c:"math",t:"6.4 Areas of Surfaces of Revolution",s:"Annotated notes 6.4"},
+  {id:"m71",c:"math",t:"7.1 Natural Logarithms",s:"Annotated notes 7.1 + Ch 7 slides"},
+  {id:"m72",c:"math",t:"7.2 Exponential Functions",s:"Annotated notes 7.2"},
+  {id:"m73",c:"math",t:"7.3 Inverse Trigonometric Functions",s:"Annotated notes 7.3 + extra Ch7 exercises"},
+  {id:"m81",c:"math",t:"8.1 Basic Integration Formulas",s:"Annotated notes 8.1 + Ch 8 slides"},
+  {id:"m82",c:"math",t:"8.2 Integration by Parts",s:"Annotated notes 8.2"},
+  {id:"m83",c:"math",t:"8.3 Trig Integrals (powers of sin & cos)",s:"Annotated notes 8.3"},
+  {id:"mold",c:"math",t:"Old Midterms (3 exams + answer key)",s:"Old Midterms folder"},
+  {id:"mprac",c:"math",t:"Practice Problems + Quiz Questions",s:"Practice + quiz solutions"},
+  // AI 418
+  {id:"a1",c:"ai",t:"Week 1 · Introduction to HCI",s:"W1 S1 + W1 S2 slides + W1 Reading"},
+  {id:"a2",c:"ai",t:"Week 2 · Foundations: The Human",s:"W2 S1 + W2 S2 slides + W2 Reading"},
+  {id:"a3",c:"ai",t:"Week 3 · Foundations: The Computer",s:"W3 S1 + W3 S2 slides + W3 Reading"},
+  {id:"a4",c:"ai",t:"Week 4 · The Interaction & Design Process",s:"W4 S0–S3 slides + W4 Reading"},
+  {id:"a5",c:"ai",t:"Week 5 · Design Process: Idea → Measurable Goal",s:"W5 S1 + W5 S2 slides + W5 Reading"},
+  {id:"a6",c:"ai",t:"Week 6 S1 · Universal Design",s:"W6 S1 slides + W6 Reading"},
+  {id:"a7",c:"ai",t:"Midterm review page: practice + “Don't mix up”",s:"ai418-delivery…/s/midterm"},
+  // CS 201
+  {id:"c21",c:"cs201",t:"2.1 Sets",s:"Chpt 2 – Basic Structures"},
+  {id:"c22",c:"cs201",t:"2.2 Set Operations",s:"Chpt 2"},
+  {id:"c23",c:"cs201",t:"2.3 Functions",s:"Chpt 2"},
+  {id:"c24",c:"cs201",t:"2.4 Sequences & Summations",s:"Chpt 2"},
+  {id:"c25",c:"cs201",t:"2.5 Cardinality of Sets",s:"Chpt 2"},
+  {id:"c26",c:"cs201",t:"2.6 Matrices",s:"Chpt 2"},
+  {id:"c41",c:"cs201",t:"4.1 Divisibility & Modular Arithmetic",s:"Chpt 4 – Number Theory & Cryptography"},
+  {id:"c42",c:"cs201",t:"4.2 Integer Representations & Algorithms",s:"Chpt 4"},
+  {id:"c43",c:"cs201",t:"4.3 Primes & Greatest Common Divisors",s:"Chpt 4"},
+  {id:"c44",c:"cs201",t:"4.4 Solving Congruences",s:"Chpt 4"},
+  {id:"c45",c:"cs201",t:"4.5 Applications of Congruences",s:"Chpt 4"},
+  {id:"c46",c:"cs201",t:"4.6 Cryptography",s:"Chpt 4"},
+  // CS 351
+  {id:"d1",c:"cs351",t:"Lecture 1 · Databases & Database Users",s:"Week 1.pdf + DB vs DBMS"},
+  {id:"d2",c:"cs351",t:"Lecture 2 · DB System Concepts & Architecture",s:"Week 2.pdf + Databases Architecture + Exercises Topic 2"},
+  {id:"d3",c:"cs351",t:"Lecture 3 · DBMS Types",s:"DBMSTypes.pdf + Exercises Topic 3"},
+  {id:"d4",c:"cs351",t:"Lecture 4 · ER Model",s:"Week 4 Part 1.pdf + Week 5 Part 2.pdf"},
+  {id:"d5",c:"cs351",t:"Lecture 5 · Relational Data Model",s:"Week 6.pdf"},
+  {id:"d6",c:"cs351",t:"Lecture 6 · Relational Constraints",s:"Week 7.pdf"},
+  {id:"d7",c:"cs351",t:"Practice: ER & schema lab solutions",s:"Lab 2, Lab 3 (ER), Lab 4 solutions"},
+  // ENGL 201
+  {id:"e1",c:"engl",t:"Section A · AWL 7 vocabulary (Unit 1)",s:"Unit 1 PDF + AWL 7 Extra Practice"},
+  {id:"e2",c:"engl",t:"Section A · AWL 8 vocabulary (Unit 2)",s:"Unit 2 PDF + AWL 8 Exercises"},
+  {id:"e3",c:"engl",t:"Section B · Professional responsibility & academic honesty",s:"Report 7 – Ethical Writing + Unit 1 presentation"},
+  {id:"e4",c:"engl",t:"Section C · Unit 1: topic, audience, purpose, sources, abstracts",s:"Report 1, 2, 3, 5 slides"},
+  {id:"e5",c:"engl",t:"Section C · Unit 2: evaluation, paraphrase, APA 7",s:"Report 4, 6, 8 slides + APA Model Report"},
+  {id:"e6",c:"engl",t:"Section D · Exercise 2.8 (Unit 2)",s:"Unit 2 PDF"},
+  {id:"e7",c:"engl",t:"Section D · Exercises 2.3, 2.6 + Appendix A",s:"Unit 2 PDF + APA 7 open-ended sample"}
+];
+const TOPIC = Object.fromEntries(TOPICS.map(t=>[t.id,t]));
+
+/* what sits inside each course folder in "02 الدراسة UPM" */
+const FILES = {
+  math:["01 Lecture Notes — شرح الدكتور 5.3 → 8.3 (13 ملف) + تمارين Ch7","02 Textbook Slides — Ch 5, Ch 6, CH 7, Ch 8","03 Old Midterms — 3 ميدات + Answer Key + تجميعة","04 Practice — Practice Problems + Quiz Questions + Solutions","05 Formula Sheets — Trig, Integrals, Integration & Differentiation Rules"],
+  ai:["01 Slides — W1 S1 → W6 S1 (13 ملف)","02 Readings — W1 → W6 (6 ملفات)","صفحة مراجعة الميد (رابط)"],
+  cs201:["Chpt 2 - Basic Structures.pptx","Chpt 4 - Number Theory & Cryptography.pptx"],
+  cs351:["Lecture 01 — Week 1 + DB vs DBMS","Lecture 02 — Week 2 + Databases Architecture + Exercises","Lecture 03 — DBMSTypes + Exercises","Lecture 04 — Week 4 Part 1 + Week 5 Part 2","Lecture 05 — Week 6","Lecture 06 — Week 7","Lab Solutions — Lab 2, Lab 3 (ER), Lab 4"],
+  engl:["ENGL 201 Midterm Exam Study Guide","Unit 1 — Unit PDF + AWL 7 + Report 1, 2, 3, 5, 7","Unit 2 — Unit PDF + AWL 8 + Report 4, 6, 8 + APA Model","APA 7 open-ended questions sample"]
+};
+
+const B = (id,c,slot,title,topics,tip)=>({id,c,slot,title,topics,tip});
+const DAYS = [
+  {date:"2026-10-23", blocks:[
+    B("1023a","math","16:00–17:30","التكامل المحدد والنظرية الأساسية",["m53","m54"],"اقرأ الملاحظات المشروحة وحل أمثلة الدكتور بنفسك قبل ما تشوف الحل."),
+    B("1023b","math","17:45–19:15","التعويض والمساحة بين منحنيين",["m55","m56"],"ركّز على اختيار u وتحديد حدود التكامل الجديدة."),
+    B("1023c","math","20:00–21:30","الحجوم: Disk و Washer",["m61"],"ارسم المنطقة دائماً قبل ما تكتب التكامل."),
+    B("1023d","math","21:45–23:15","طول القوس ومساحة السطح الدوراني",["m63","m64"],"احفظ القانونين واكتبهم من الذاكرة بالنهاية.")]},
+  {date:"2026-10-24", blocks:[
+    B("1024a","math","09:00–10:30","اللوغاريتم الطبيعي والدوال الأسية",["m71","m72"],"قواعد الاشتقاق والتكامل لـ ln و e^x."),
+    B("1024b","math","10:45–12:15","الدوال المثلثية العكسية + قوانين التكامل",["m73","m81"],"استخدم ورقة INTEGRATION RULES وجدول التكاملات."),
+    B("1024c","math","16:00–17:30","التكامل بالتجزئة والتكاملات المثلثية",["m82","m83"],"قاعدة LIATE + حالات القوى الفردية والزوجية."),
+    B("1024d","math","20:00–21:30","ميد قديم بتوقيت حقيقي",["mold"],"حل Spring 2025 بدون كتاب وصحّح من Answer Key.")]},
+  {date:"2026-10-25", blocks:[
+    B("1025a","math","16:00–17:30","ميدات قديمة: نقاط الضعف",["mold"],"Fall 2321 و Spring 2322 · ارجع للسكشن اللي غلطت فيه."),
+    B("1025b","math","17:45–19:15","أسئلة الكويزات وحل التمارين الإضافية",["mprac"],"Practice Problems + Quiz Questions Solutions."),
+    B("1025c","ai","20:00–21:30","AI 418: الأسبوع 1 و 2",["a1","a2"],"القراءات أهم من السلايدات · اقرأ سطر “Don't mix up” لكل أسبوع."),
+    B("1025d","ai","21:45–23:15","AI 418: الأسبوع 3",["a3"],"اربط كل مفهوم بتطبيق تستخدمه يومياً.")]},
+  {date:"2026-10-26", exam:{c:"math",at:"12:30"}, blocks:[
+    B("1026a","math","08:00–09:30","مراجعة أخيرة للماث",[],"القوانين + الأخطاء اللي سجلتها في الملاحظات. لا تبدأ شي جديد."),
+    B("1026b","ai","15:00–16:30","AI 418: الأسبوع 4",["a4"],"The Interaction + مراحل الـ Design Process."),
+    B("1026c","ai","17:00–18:30","AI 418: الأسبوع 5 و Universal Design",["a5","a6"],"من الفكرة إلى هدف قابل للقياس."),
+    B("1026d","ai","20:00–21:30","صفحة مراجعة الدكتور + سؤال التصميم",["a7"],"حل كل أسئلة التدريب ودرّب نفسك على سؤال التصميم القصير (6%).")]},
+  {date:"2026-10-27", exam:{c:"ai",at:"وقت المحاضرة"}, blocks:[
+    B("1027a","ai","07:00–08:00","مراجعة سريعة لـ AI 418",[],"سطور “Don't mix up” وكلمات تختلف معناها عن مواد الذكاء الاصطناعي."),
+    B("1027b","cs201","15:00–16:30","CS 201: المجموعات وعملياتها",["c21","c22"],"Venn diagrams، power set، Cartesian product."),
+    B("1027c","cs201","17:00–18:30","CS 201: الدوال",["c23"],"one-to-one، onto، inverse، composition، floor/ceiling."),
+    B("1027d","engl","20:00–21:30","ENGL 201: مفردات AWL 7 و AWL 8",["e1","e2"],"10 درجات MCQ · اكتب كل كلمة مع معناها ومثال.")]},
+  {date:"2026-10-28", blocks:[
+    B("1028a","cs201","15:00–16:30","CS 201: المتتاليات والمجاميع + Cardinality",["c24","c25"],"صيغ المجاميع المشهورة · countable vs uncountable."),
+    B("1028b","cs201","17:00–18:30","CS 201: المصفوفات + تمارين الفصل 2",["c26"],"ضرب المصفوفات وBoolean matrices."),
+    B("1028c","cs351","20:00–21:30","CS 351: المحاضرة 1 و 2",["d1","d2"],"تعريفات DB / DBMS، three-schema architecture، data independence."),
+    B("1028d","engl","21:45–23:15","ENGL 201: Unit 1 + المسؤولية المهنية",["e3","e4"],"Section B و C · Report 1، 2، 3، 5، 7.")]},
+  {date:"2026-10-29", blocks:[
+    B("1029a","cs201","15:00–16:30","CS 201: القسمة والحساب المودولي + تمثيل الأعداد",["c41","c42"],"a mod m، congruence، base conversion."),
+    B("1029b","cs201","17:00–18:30","CS 201: الأعداد الأولية و GCD",["c43"],"Euclidean algorithm، prime factorization، LCM."),
+    B("1029c","cs351","20:00–21:30","CS 351: أنواع DBMS",["d3"],"حل Exercises Topic 3 بعد القراءة."),
+    B("1029d","engl","21:45–23:15","ENGL 201: Unit 2 (Section C)",["e5"],"Source evaluation، paraphrase vs summary، APA 7.")]},
+  {date:"2026-10-30", blocks:[
+    B("1030a","cs201","09:00–10:30","CS 201: حل التطابقات وتطبيقاتها",["c44","c45"],"modular inverse، Chinese remainder theorem، hashing."),
+    B("1030b","cs201","10:45–12:15","CS 201: التشفير",["c46"],"Caesar، affine، RSA خطوة بخطوة."),
+    B("1030c","cs351","16:00–17:30","CS 351: نموذج ER",["d4"],"entities، attributes، relationships، cardinality، weak entities."),
+    B("1030d","engl","20:00–21:30","ENGL 201: دمج المصادر (Section D)",["e6","e7"],"Exercise 2.8 (5 درجات) + 2.3، 2.6، Appendix A (3 درجات).")]},
+  {date:"2026-10-31", note:"تسليم مشروع AI 418 M2 مسجل في التقويم الساعة 23:59 · خلّه خارج ساعات المذاكرة.", blocks:[
+    B("1031a","cs351","09:00–10:30","CS 351: النموذج العلائقي",["d5"],"relation، tuple، domain، keys."),
+    B("1031b","cs351","10:45–12:15","CS 351: قيود قاعدة البيانات العلائقية",["d6"],"entity integrity، referential integrity، foreign keys."),
+    B("1031c","cs351","16:00–17:30","CS 351: حلول اللابات ورسم ER",["d7"],"ارسم ER لمثال جديد وقارنه بحل Lab 3."),
+    B("1031d","cs201","20:00–21:30","CS 201: تمارين مختلطة للفصل 2",[],"اختر مسائل من آخر كل سكشن في السلايدات.")]},
+  {date:"2026-11-01", blocks:[
+    B("1101a","cs201","09:00–10:30","CS 201: تمارين مختلطة للفصل 4",[],"mod، GCD، congruences، RSA."),
+    B("1101b","cs201","10:45–12:15","CS 201: مراجعة شاملة ونقاط الضعف",[],"راجع ملاحظاتك وحل اللي غلطت فيه."),
+    B("1101c","cs351","16:00–17:30","CS 351: تدريب على الأسئلة الكتابية",[],"70% من الاختبار كتابي · اكتب إجابات كاملة بخط يدك."),
+    B("1101d","engl","20:00–21:30","ENGL 201: مراجعة المفردات ودمج المصادر",[],"اختبر نفسك على AWL 7 و 8.")]},
+  {date:"2026-11-02", exam:{c:"cs201",at:"الوقت يُعلن"}, blocks:[
+    B("1102a","cs201","07:00–08:30","مراجعة أخيرة لـ CS 201",[],"التعريفات والصيغ فقط."),
+    B("1102b","cs351","15:00–16:30","CS 351: مراجعة المحاضرات 1–3",[],"التعريفات والمقارنات."),
+    B("1102c","cs351","17:00–18:30","CS 351: مراجعة المحاضرات 4–6",[],"ER والنموذج العلائقي والقيود."),
+    B("1102d","cs351","20:00–21:30","CS 351: محاكاة اختبار بتوقيت",[],"30 دقيقة MCQ + ساعة كتابي.")]},
+  {date:"2026-11-03", exam:{c:"cs351",at:"12:15"}, blocks:[
+    B("1103a","cs351","08:00–09:30","مراجعة أخيرة لـ CS 351",[],"ER + القيود + أنواع DBMS."),
+    B("1103b","engl","16:00–17:30","ENGL 201: مراجعة (إذا ما اختبرته)",[],"Section A و D أعلى درجات.")]}
+];
+
+const AR_DAYS=["الأحد","الاثنين","الثلاثاء","الأربعاء","الخميس","الجمعة","السبت"];
+const AR_MON={9:"أكتوبر",10:"نوفمبر"};
+const parseDate = s => { const [y,m,d]=s.split("-").map(Number); return new Date(y,m-1,d); };
+const dayLabel = s => { const d=parseDate(s); return AR_DAYS[d.getDay()]+" "+d.getDate()+" "+(AR_MON[d.getMonth()]||""); };
+const keyOf = d => d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
+const hm = ms => { const m=Math.max(0,Math.round(ms/60000)); return Math.floor(m/60)+":"+String(m%60).padStart(2,"0"); };
+const clock = iso => { if(!iso) return ""; const d=new Date(iso); return String(d.getHours()).padStart(2,"0")+":"+String(d.getMinutes()).padStart(2,"0"); };
+const esc = s => String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+/* ---------- state + storage ---------- */
+const state = {blocks:{}, topics:{}, settings:{}};
+let fs = null, canEdit = false;
+
+const queues = {};
+function writeDoc(path, body){
+  if(!fs || !canEdit) return;
+  const prev = queues[path] || Promise.resolve();
+  queues[path] = prev.then(()=>fs.doc(path).set(body)).catch(err=>{ setSync("تعذّر الحفظ: "+(err&&err.code||"خطأ"), false); });
+}
+function setBlock(id, patch){
+  if(!canEdit) return;
+  const cur = Object.assign({}, state.blocks[id]||{}, patch);
+  state.blocks[id] = cur; render(); writeDoc("blocks/"+id, cur);
+}
+function setTopic(id, done){
+  if(!canEdit) return;
+  const body = {done:!!done, at:new Date().toISOString()};
+  state.topics[id] = body; render(); writeDoc("topics/"+id, body);
+}
+function setSetting(k, v){
+  if(!canEdit) return;
+  state.settings = Object.assign({}, state.settings, {[k]:v}); render(); writeDoc("settings/main", state.settings);
+}
+function setSync(text, on){ const el=document.getElementById("sync"); el.className="sync"+(on?" on":""); el.lastElementChild.textContent=text; }
+
+/* ---------- derived ---------- */
+function blockMs(b, now){
+  const s=state.blocks[b.id]; if(!s||!s.startedAt) return 0;
+  const end = s.endedAt ? new Date(s.endedAt) : now;
+  return Math.max(0, end - new Date(s.startedAt));
+}
+function dayMs(day, now){ return day.blocks.reduce((a,b)=>a+blockMs(b,now),0); }
+function courseProgress(c){ const ts=TOPICS.filter(t=>t.c===c); const d=ts.filter(t=>state.topics[t.id]&&state.topics[t.id].done).length; return {d, n:ts.length}; }
+function examDate(c){
+  if(c==="engl"){ const v=state.settings.englDate; return v? new Date(v+"T08:00") : null; }
+  const iso=COURSES[c].exam; return iso? new Date(iso) : null;
+}
+
+/* ---------- render ---------- */
+const todayKey = keyOf(new Date());
+let selectedDay = (DAYS.find(d=>d.date===todayKey) || (todayKey < DAYS[0].date ? DAYS[0] : DAYS[DAYS.length-1])).date;
+let selectedCourse = "math";
+
+function renderExams(now){
+  const el=document.getElementById("exams");
+  el.innerHTML = Object.entries(COURSES).map(([k,c])=>{
+    const p=courseProgress(k), dt=examDate(k);
+    let left="—", soon=false, done=false;
+    if(dt){ const ms=dt-now; if(ms<=-3*3600e3){left="انتهى"; done=true;} else if(ms<=0){left="اليوم";soon=true;}
+      else { const days=Math.floor(ms/864e5), hrs=Math.floor((ms%864e5)/36e5); left=days>0? days+" يوم "+hrs+" س" : hrs+" ساعة"; soon=days<2; } }
+    const englInput = k==="engl" ? `<label class="engl-date">موعد الميد: <input type="date" id="englDate" value="${esc(state.settings.englDate||"")}" min="2026-10-23" max="2026-12-31" ${canEdit?"":"disabled"}></label>` : "";
+    return `<article class="exam${done?" done":""}" style="--cc:var(${c.color})">
+      <span class="code">${c.code}</span>
+      <span class="when">${esc(k==="engl"&&state.settings.englDate? dayLabel(state.settings.englDate) : c.examText)}</span>
+      <span class="left${soon?" soon":""}">${left}</span>
+      <span class="meta">${esc(c.meta)}</span>
+      ${englInput}
+      <div class="bar" aria-label="التقدم"><i style="width:${p.n?Math.round(p.d/p.n*100):0}%"></i></div>
+      <span class="meta">${p.d} من ${p.n} شباتر</span>
+    </article>`;
+  }).join("");
+  const inp=document.getElementById("englDate");
+  if(inp) inp.addEventListener("change", e=>setSetting("englDate", e.target.value||null));
+}
+
+function renderRail(now){
+  const el=document.getElementById("rail");
+  el.innerHTML = DAYS.map(d=>{
+    const dt=parseDate(d.date);
+    const dots=d.blocks.map(b=>{ const s=state.blocks[b.id]; return `<i class="${s&&s.endedAt?"full":(s&&s.startedAt?"half":"")}"></i>`; }).join("");
+    return `<button class="daybtn${d.exam?" exam-day":""}${d.date===todayKey?" today":""}" data-day="${d.date}" aria-pressed="${d.date===selectedDay}">
+      <span class="dn">${d.exam? "ميد "+COURSES[d.exam.c].code : AR_DAYS[dt.getDay()]}</span>
+      <span class="dd">${dt.getDate()}/${dt.getMonth()+1}</span>
+      <span class="dots">${dots}</span></button>`;
+  }).join("");
+  el.querySelectorAll(".daybtn").forEach(b=>b.addEventListener("click",()=>{ selectedDay=b.dataset.day; render(); }));
+}
+
+function topicLi(id, ctx){
+  const t=TOPIC[id], done=!!(state.topics[id]&&state.topics[id].done), fid=`t-${ctx}-${id}`;
+  return `<li class="topic${done?" is-done":""}"><input type="checkbox" id="${fid}" data-topic="${id}" ${done?"checked":""} ${canEdit?"":"disabled"}>
+    <label for="${fid}"><span class="en">${esc(t.t)}</span><span class="src">${esc(t.s)}</span></label></li>`;
+}
+
+function renderDay(now){
+  const d=DAYS.find(x=>x.date===selectedDay); const el=document.getElementById("day");
+  const ms=dayMs(d,now), pct=Math.min(100,Math.round(ms/(6*36e5)*100));
+  const examHtml = d.exam ? `<div class="examrow"><b>ميد ${COURSES[d.exam.c].code}</b><span>${esc(COURSES[d.exam.c].examText)}</span></div>` : "";
+  const blocks = d.blocks.map((b,i)=>{
+    const s=state.blocks[b.id]||{}, c=COURSES[b.c];
+    const st = s.endedAt? ["done","خلصت"] : s.startedAt? ["doing","جاري"] : ["","لم يبدأ"];
+    const live = s.startedAt && !s.endedAt;
+    const row = `<article class="block" style="--cc:var(${c.color})"><div class="stripe"></div><div class="body">
+      <div class="hd"><span class="chip">${c.code}</span><span class="slot">مقترح ${b.slot} · 1:30</span><span class="state ${st[0]}">${st[1]}</span></div>
+      <h4>${esc(b.title)}</h4>
+      ${b.tip?`<p class="tip">${esc(b.tip)}</p>`:""}
+      ${b.topics.length?`<ul class="topics">${b.topics.map(id=>topicLi(id,"day")).join("")}</ul>`:""}
+      <div class="ctrl">
+        <button class="btn primary" data-start="${b.id}" ${(!canEdit||s.startedAt)?"disabled":""}>بدأت</button>
+        <button class="btn finish" data-end="${b.id}" ${(!canEdit||!s.startedAt||s.endedAt)?"disabled":""}>خلصت</button>
+        <label class="tfield">من <input type="time" id="s-${b.id}" data-tstart="${b.id}" value="${clock(s.startedAt)}" ${canEdit?"":"disabled"}></label>
+        <label class="tfield">إلى <input type="time" id="e-${b.id}" data-tend="${b.id}" value="${clock(s.endedAt)}" ${canEdit?"":"disabled"}></label>
+        ${(canEdit&&(s.startedAt||s.endedAt))?`<button class="btn ghost" data-clear="${b.id}">مسح الوقت</button>`:""}
+        <span class="elapsed${live?" live":""}" data-elapsed="${b.id}">${hm(blockMs(b,now))}</span>
+      </div>
+      ${canEdit || s.note ? `<textarea class="note" id="n-${b.id}" data-note="${b.id}" placeholder="ملاحظات: وش صعب عليك؟ وش تراجعه؟" ${canEdit?"":"readonly"}>${esc(s.note||"")}</textarea>` : ""}
+    </div></article>`;
+    // put exam row right after the morning review on exam days
+    return (d.exam && i===1 ? examHtml : "") + row;
+  }).join("") + (d.exam && d.blocks.length<2 ? examHtml : "");
+  el.innerHTML = `<div class="dayhead"><div><div class="eyebrow">${d.date===todayKey?"اليوم":""}</div><h3>${dayLabel(d.date)}</h3></div>
+      <div class="goal"><div class="row"><span>المذاكرة اليوم</span><b>${hm(ms)} / 6:00</b></div><div class="bar" style="--cc:var(--ok)"><i style="width:${pct}%"></i></div></div></div>
+    ${d.note?`<div class="note-bar">${esc(d.note)}</div>`:""}
+    <div class="blocks">${blocks}</div>`;
+}
+
+function renderCourse(){
+  const t=document.getElementById("ctabs");
+  t.innerHTML = Object.entries(COURSES).map(([k,c])=>{ const p=courseProgress(k);
+    return `<button class="tab" role="tab" style="--cc:var(${c.color})" data-course="${k}" aria-selected="${k===selectedCourse}">${c.code} · ${p.d}/${p.n}</button>`; }).join("");
+  t.querySelectorAll(".tab").forEach(b=>b.addEventListener("click",()=>{ selectedCourse=b.dataset.course; render(); }));
+  const c=COURSES[selectedCourse];
+  const files = FILES[selectedCourse]||[];
+  document.getElementById("course").innerHTML = `<div class="course" style="--cc:var(${c.color})">
+    <div><h4>${c.code} · <span dir="ltr">${c.name}</span></h4><p class="scope">${esc(c.scope)}</p>
+      ${c.link?`<p class="scope"><a href="${c.link.href}" target="_blank" rel="noopener">${esc(c.link.text)}</a></p>`:""}
+      <ul class="topics">${TOPICS.filter(x=>x.c===selectedCourse).map(x=>topicLi(x.id,"course")).join("")}</ul></div>
+    <div><div class="eyebrow">الملفات في مجلد 02 الدراسة UPM</div>
+      <ul class="files"><li class="folder">${esc(c.folder)}</li>${files.map(f=>`<li>${esc(f)}</li>`).join("")}</ul></div>
+  </div>`;
+}
+
+function renderKpis(now){
+  const today=DAYS.find(d=>d.date===todayKey);
+  document.getElementById("kpiToday").textContent = hm(today? dayMs(today,now) : 0);
+  document.getElementById("kpiTotal").textContent = hm(DAYS.reduce((a,d)=>a+dayMs(d,now),0));
+  const done=TOPICS.filter(t=>state.topics[t.id]&&state.topics[t.id].done).length;
+  document.getElementById("kpiTopics").textContent = done+"/"+TOPICS.length;
+}
+
+function render(){
+  const now=new Date();
+  // keep focus/scroll on a note being typed
+  const active=document.activeElement; const activeId=active&&active.id; const sel=active&&active.selectionStart;
+  renderKpis(now); renderExams(now); renderRail(now); renderDay(now); renderCourse();
+  if(activeId){ const el=document.getElementById(activeId); if(el){ el.focus(); try{ if(sel!=null) el.setSelectionRange(sel,sel);}catch(_){} } }
+}
+
+/* ---------- events (delegated) ---------- */
+function timeOnDay(blockId, hhmm, fallbackIso){
+  if(!hhmm) return null;
+  const day = DAYS.find(d=>d.blocks.some(b=>b.id===blockId));
+  const base = fallbackIso ? new Date(fallbackIso) : parseDate(day.date);
+  const [h,m]=hhmm.split(":").map(Number); const d=new Date(base); d.setHours(h,m,0,0); return d.toISOString();
+}
+document.addEventListener("click", e=>{
+  const t=e.target.closest("button"); if(!t) return;
+  if(t.dataset.start){ setBlock(t.dataset.start,{startedAt:new Date().toISOString(), endedAt:null}); }
+  else if(t.dataset.end){ setBlock(t.dataset.end,{endedAt:new Date().toISOString()}); }
+  else if(t.dataset.clear){ setBlock(t.dataset.clear,{startedAt:null, endedAt:null}); }
+});
+document.addEventListener("change", e=>{
+  const t=e.target;
+  if(t.dataset.topic){ setTopic(t.dataset.topic, t.checked); }
+  else if(t.dataset.tstart){ const id=t.dataset.tstart, s=state.blocks[id]||{}; setBlock(id,{startedAt:timeOnDay(id,t.value,s.startedAt)}); }
+  else if(t.dataset.tend){ const id=t.dataset.tend, s=state.blocks[id]||{};
+    let iso=timeOnDay(id,t.value,s.endedAt||s.startedAt);
+    if(iso && s.startedAt && new Date(iso)<new Date(s.startedAt)){ const d=new Date(iso); d.setDate(d.getDate()+1); iso=d.toISOString(); }
+    setBlock(id,{endedAt:iso}); }
+});
+document.addEventListener("focusout", e=>{
+  const t=e.target; if(!t.dataset||!t.dataset.note) return;
+  const id=t.dataset.note, cur=(state.blocks[id]||{}).note||"";
+  if(t.value!==cur) setBlock(id,{note:t.value});
+});
+
+/* live timers */
+setInterval(()=>{
+  const now=new Date();
+  document.querySelectorAll(".elapsed.live").forEach(el=>{ const id=el.dataset.elapsed; const b=DAYS.flatMap(d=>d.blocks).find(x=>x.id===id); if(b) el.textContent=hm(blockMs(b,now)); });
+  renderKpis(now);
+}, 20000);
+
+/* ---------- boot ---------- */
+render();
+(function boot(){
+  const cfg = window.FIREBASE_CONFIG || {};
+  if(typeof firebase === "undefined" || !cfg.apiKey || cfg.apiKey.indexOf("PASTE")===0){
+    setSync("Firebase غير مربوط", false);
+    document.getElementById("storeNote").textContent="الصفحة تحتاج بيانات مشروع Firebase في أعلى الملف عشان تحفظ التقدم.";
+    return;
+  }
+  firebase.initializeApp(cfg);
+  fs = firebase.firestore();
+  const auth = firebase.auth();
+  const owner = String(window.OWNER_EMAIL||"").toLowerCase();
+  const signIn=document.getElementById("signIn"), signOut=document.getElementById("signOut"), badge=document.getElementById("roBadge");
+  signIn.addEventListener("click", ()=>auth.signInWithPopup(new firebase.auth.GoogleAuthProvider()).catch(err=>setSync("تعذّر الدخول: "+(err&&err.code||""), false)));
+  signOut.addEventListener("click", ()=>auth.signOut());
+  auth.onAuthStateChanged(u=>{
+    canEdit = !!(u && u.email && u.email.toLowerCase()===owner);
+    document.body.classList.toggle("ro", !canEdit);
+    badge.textContent = canEdit ? "وضع التعديل" : (u ? "هذا الحساب للعرض فقط" : "عرض فقط");
+    signIn.hidden = !!u; signOut.hidden = !u;
+    render();
+  });
+  const sub=(coll, key)=>fs.collection(coll).onSnapshot(snap=>{
+    const m={}; snap.docs.forEach(d=>{ m[d.id]=d.data(); }); state[key]=m; render(); setSync("متزامن", true);
+  }, err=>setSync("انقطع التزامن", false));
+  sub("blocks","blocks"); sub("topics","topics");
+  fs.doc("settings/main").onSnapshot(s=>{ state.settings = s.exists ? Object.assign({}, s.data()) : {}; render(); }, ()=>{});
+  document.getElementById("storeNote").textContent="التقدم محفوظ أونلاين ويتحدث مباشرة لكل من يفتح الصفحة. التعديل لصاحب الخطة فقط.";
+})();
+})();
+</script>
+</body>
+</html>
